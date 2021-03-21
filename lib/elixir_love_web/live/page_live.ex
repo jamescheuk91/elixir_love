@@ -11,12 +11,13 @@ defmodule ElixirLoveWeb.PageLive do
     {:ok,
      socket
      |> assign(
-      input_value: "",
+       input_value: "",
        current_session_id: nil,
        session_ids: CodeSession.session_ids(),
        logs: []
      )}
   end
+
   @impl Phoenix.LiveView
   def handle_event("set_input_value", %{"command" => %{"text" => command}}, socket) do
     {:noreply, socket |> assign(:input_value, command)}
@@ -25,8 +26,11 @@ defmodule ElixirLoveWeb.PageLive do
   @impl Phoenix.LiveView
   def handle_event("execute", %{"command" => %{"text" => command}}, socket) do
     CodeSession.execute(socket.assigns.current_session_id, command)
-    new_socket = socket
-    |> push_event("command", %{text: ""})
+
+    new_socket =
+      socket
+      |> push_event("command", %{text: ""})
+
     {:noreply, new_socket}
   end
 
@@ -72,7 +76,10 @@ defmodule ElixirLoveWeb.PageLive do
   end
 
   @impl Phoenix.LiveView
-  def handle_info({:put_log, session_id, log}, %{assigns: %{current_session_id: current_session_id}} = socket)
+  def handle_info(
+        {:put_log, session_id, log},
+        %{assigns: %{current_session_id: current_session_id}} = socket
+      )
       when session_id == current_session_id do
     {:noreply,
      socket
@@ -83,7 +90,6 @@ defmodule ElixirLoveWeb.PageLive do
   def handle_info({:put_log, _session_id, _log}, socket) do
     {:noreply, socket}
   end
-
 
   def handle_info({:session_ids, session_ids}, socket) do
     if Enum.member?(session_ids, socket.assigns.current_session_id) do

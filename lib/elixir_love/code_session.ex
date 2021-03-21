@@ -38,7 +38,7 @@ defmodule ElixirLove.CodeSession do
   def execute(session_id, code) when is_integer(session_id) do
     CodeSession.CodeRunner
     |> via_tuple(session_id)
-    |> GenServer.call({:execute, code})
+    |> GenServer.call({:execute, code}, 60_000)
   end
 
   def get_logs(session_id) when is_integer(session_id) do

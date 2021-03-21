@@ -10,7 +10,7 @@ defmodule ElixirLove.CodeSession do
              restart: :transient,
              type: :supervisor
            },
-                    {:ok, _pid} <- DynamicSupervisor.start_child(CodeSession.DynamicSupervisor, spec) do
+         {:ok, _pid} <- DynamicSupervisor.start_child(CodeSession.DynamicSupervisor, spec) do
       {:ok, session_id}
     end
   end

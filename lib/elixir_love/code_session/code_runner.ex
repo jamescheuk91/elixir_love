@@ -25,8 +25,7 @@ defmodule ElixirLove.CodeSession.CodeRunner do
       {result, bindings, env} = do_execute(code, state.bindings, state.env)
       log(state.session_id, {:result, result})
       new_state = %{state | bindings: bindings, env: env}
-      {:reply,[{:input, code}, {:result, result}], new_state}
-
+      {:reply, [{:input, code}, {:result, result}], new_state}
     catch
       kind, error ->
         log(state.session_id, {:error, kind, error, __STACKTRACE__})
@@ -45,7 +44,14 @@ defmodule ElixirLove.CodeSession.CodeRunner do
   end
 
   defp log(session_id, value) do
-    CodeSession.Log.put_log(via_tuple(CodeSession.Log, session_id), value)
+    topic_name = "code_session_events"
+
+    ElixirLove.PubSub
+    |> Phoenix.PubSub.broadcast(topic_name, {:put_log, session_id, value})
+
+    CodeSession.Log
+    |> via_tuple(session_id)
+    |> CodeSession.Log.put_log(value)
   end
 
   defp via_tuple(module, session_id) do

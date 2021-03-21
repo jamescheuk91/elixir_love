@@ -36,7 +36,7 @@
           <span class="text-xl text-grey border-r-0 border-grey p-2">
             iex&gt;
           </span>
-          <%= f = form_tag "#", [phx_submit: :execute, class: "flex w-full"] %>
+          <%= f = form_tag "#", [phx_change: :set_input_value, phx_submit: :execute, class: "flex w-full"] %>
           <%= text_input :command, :text, [placeholder: "Write Elixir code to execute and hit 'Enter'...", value: "", class: "w-full px-4 outline-none", disabled: !@current_session_id] %>
           </form>
         </div>

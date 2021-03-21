@@ -9,7 +9,7 @@ defmodule ElixirLove do
 
   def hello(), do: :world
 
-  def into() do
+  def intro() do
     %{
       name: "James",
     }

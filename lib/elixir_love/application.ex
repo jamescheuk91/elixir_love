@@ -12,9 +12,10 @@ defmodule ElixirLove.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: ElixirLove.PubSub},
       # Start the Endpoint (http/https)
-      ElixirLoveWeb.Endpoint
+      ElixirLoveWeb.Endpoint,
       # Start a worker by calling: ElixirLove.Worker.start_link(arg)
       # {ElixirLove.Worker, arg}
+      {ElixirLove.CodeRunner, name: ElixirLove.CodeRunner}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

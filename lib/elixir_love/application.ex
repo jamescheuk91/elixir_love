@@ -5,6 +5,8 @@ defmodule ElixirLove.Application do
 
   use Application
 
+  alias ElixirLove.CodeSession
+
   def start(_type, _args) do
     children = [
       # Start the Telemetry supervisor
@@ -15,7 +17,9 @@ defmodule ElixirLove.Application do
       ElixirLoveWeb.Endpoint,
       # Start a worker by calling: ElixirLove.Worker.start_link(arg)
       # {ElixirLove.Worker, arg}
-      {ElixirLove.CodeRunner, name: ElixirLove.CodeRunner}
+      {Registry, keys: :unique, name: CodeSession.Registry},
+      {CodeSession.Counter, name: CodeSession.Counter},
+      {DynamicSupervisor, name: CodeSession.DynamicSupervisor, strategy: :one_for_one}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

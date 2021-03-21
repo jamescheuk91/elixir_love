@@ -11,7 +11,7 @@ defmodule ElixirLove do
 
   def intro() do
     %{
-      name: "James",
+      name: "James"
     }
   end
 end
